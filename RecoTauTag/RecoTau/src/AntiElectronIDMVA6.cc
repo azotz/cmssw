@@ -1161,11 +1161,12 @@ TauVars AntiElectronIDMVA6<TauType, ElectronType>::getTauVarsTypeSpecific(const 
         const reco::PFCandidate* pfCandidate = static_cast<const reco::PFCandidate*>(candidate.get());
         etaAtECalEntrance = pfCandidate->positionAtECALEntrance().eta();
         if (!usePhiAtEcalEntranceExtrapolation_) {
-          phiAtECalEntrance = pfCandidate->positionAtECALEntrance().phi();
-        } else {
+        //   phiAtECalEntrance = pfCandidate->positionAtECALEntrance().phi();
+        // } else {
           bool success = false;
           reco::Candidate::Point posAtECal = positionAtECalEntrance_(candidate.get(), success);
           if (success) {
+            etaAtECalEntrance = posAtECal.eta();
             phiAtECalEntrance = posAtECal.phi();
           }
         }

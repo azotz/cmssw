@@ -107,9 +107,9 @@ namespace reco {
     }
 
     math::XYZPointF atECALEntrance(const reco::Candidate* part, double bField) {
-      const reco::PFCandidate* pfCand = dynamic_cast<const reco::PFCandidate*>(part);
-      if (pfCand)
-        return pfCand->positionAtECALEntrance();
+      // const reco::PFCandidate* pfCand = dynamic_cast<const reco::PFCandidate*>(part);
+      // if (pfCand)
+      //   return pfCand->positionAtECALEntrance();
 
       math::XYZPointF pos;
       BaseParticlePropagator theParticle = BaseParticlePropagator(

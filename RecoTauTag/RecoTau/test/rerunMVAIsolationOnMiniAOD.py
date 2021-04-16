@@ -92,7 +92,8 @@ process.rerunDiscriminationAgainstElectronMVA6 = patTauDiscriminationAgainstElec
     minMVANoEleMatchWgWOgsfEC  = cms.double(0.0),
     minMVAWOgWgsfEC            = cms.double(0.0),
     minMVAWgWgsfEC             = cms.double(0.0),
-    usePhiAtEcalEntranceExtrapolation = cms.bool(True)
+    # usePhiAtEcalEntranceExtrapolation = cms.bool(True)
+    usePhiAtEcalEntranceExtrapolation = cms.bool(False)
 )
 
 process.rerunMvaIsolation2SeqRun2 = cms.Sequence(

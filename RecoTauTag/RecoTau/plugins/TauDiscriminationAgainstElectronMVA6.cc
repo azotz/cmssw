@@ -255,9 +255,16 @@ TauDiscriminationAgainstElectronMVA6<TauType, TauDiscriminator, ElectronType>::g
     const reco::Track* track = nullptr;
     const reco::PFCandidate* pfCandidate = dynamic_cast<const reco::PFCandidate*>(candidate.get());
     if (pfCandidate != nullptr) {
-      if (!isPhase2_ || std::abs(theTauRef->eta()) < ecalBarrelEndcapEtaBorder_) {  // ECal
-        etaAtECalEntrance = pfCandidate->positionAtECALEntrance().eta();
-      } else {  // HGCal
+      // if (!isPhase2_ || std::abs(theTauRef->eta()) < ecalBarrelEndcapEtaBorder_) {  // ECal
+      //   etaAtECalEntrance = pfCandidate->positionAtECALEntrance().eta();
+      // } else {  // HGCal
+      //   bool success = false;
+      //   reco::Candidate::Point posAtECal = positionAtECalEntrance_(candidate.get(), success);
+      //   if (success) {
+      //     etaAtECalEntrance = posAtECal.eta();
+      //   }
+      // }
+      if (!isPhase2_) {  // ECal
         bool success = false;
         reco::Candidate::Point posAtECal = positionAtECalEntrance_(candidate.get(), success);
         if (success) {

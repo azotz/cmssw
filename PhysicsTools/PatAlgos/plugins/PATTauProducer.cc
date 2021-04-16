@@ -515,8 +515,18 @@ void PATTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) 
         if (ipfcand != nullptr) {
           ecalEnergy += ipfcand->ecalEnergy();
           hcalEnergy += ipfcand->hcalEnergy();
-          sumPhiTimesEnergy += ipfcand->positionAtECALEntrance().phi() * ipfcand->energy();
-          sumEtaTimesEnergy += ipfcand->positionAtECALEntrance().eta() * ipfcand->energy();
+          double posAtECal_phi = ipfcand->phi();
+          double posAtECal_eta = ipfcand->eta();
+          bool success = false;
+          reco::Candidate::Point posAtECalEntrance = posAtECalEntranceComputer_(ipfcand, success);
+          if (success) {
+            posAtECal_phi = posAtECalEntrance.phi();
+            posAtECal_eta = posAtECalEntrance.eta();
+          }
+          sumPhiTimesEnergy += posAtECal_phi * ipfcand->energy();
+          sumEtaTimesEnergy += posAtECal_eta * ipfcand->energy();
+          // sumPhiTimesEnergy += ipfcand->positionAtECALEntrance().phi() * ipfcand->energy();
+          // sumEtaTimesEnergy += ipfcand->positionAtECALEntrance().eta() * ipfcand->energy();
           sumEnergy += ipfcand->energy();
           const reco::Track* track = nullptr;
           if (ipfcand->trackRef().isNonnull())
@@ -531,7 +541,8 @@ void PATTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) 
             track = ipfcand->gsfTrackRef().get();
           if (track) {
             if (track->pt() > leadChargedCandPt) {
-              leadChargedCandEtaAtEcalEntrance = ipfcand->positionAtECALEntrance().eta();
+              leadChargedCandEtaAtEcalEntrance = posAtECal_eta;
+              // leadChargedCandEtaAtEcalEntrance = ipfcand->positionAtECALEntrance().eta();
               leadChargedCandPt = track->pt();
             }
           }
