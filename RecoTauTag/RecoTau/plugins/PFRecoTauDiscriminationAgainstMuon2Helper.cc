@@ -160,9 +160,12 @@ PFRecoTauDiscriminationAgainstMuon2Helper::PFRecoTauDiscriminationAgainstMuon2He
             << ", leadPFChargedHadronP = " << pfLeadChargedHadron_->gsfTrackRef()->p();
       }
     }
+    // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
     if (pfLeadChargedHadron_->trackRef().isNonnull())
       leadTrack_ = pfLeadChargedHadron_->trackRef().get();
     else if (pfLeadChargedHadron_->gsfTrackRef().isNonnull())
+      leadTrack_ = pfLeadChargedHadron_->gsfTrackRef().get();
+    if (std::abs(pfLeadChargedHadron_->pdgId()) == 11 && pfLeadChargedHadron_->gsfTrackRef().isNonnull())
       leadTrack_ = pfLeadChargedHadron_->gsfTrackRef().get();
   }
 }

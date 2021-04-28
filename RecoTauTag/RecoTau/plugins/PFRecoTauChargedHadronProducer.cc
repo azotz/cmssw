@@ -230,6 +230,9 @@ void PFRecoTauChargedHadronProducer::produce(edm::Event& evt, const edm::EventSe
             track = chargedPFCand->muonRef()->outerTrack().get();
           else if (chargedPFCand->gsfTrackRef().isNonnull())
             track = chargedPFCand->gsfTrackRef().get();
+          // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
+          if (std::abs(chargedPFCand->pdgId()) == 11 && chargedPFCand->gsfTrackRef().isNonnull())
+            track = chargedPFCand->gsfTrackRef().get();
         } else {
           track = nextChargedHadron->getChargedPFCandidate()->bestTrack();
         }

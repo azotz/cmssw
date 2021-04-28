@@ -102,6 +102,9 @@ namespace {
   inline const reco::Track* getTrack(const reco::Candidate& cand) {
     const reco::PFCandidate* pfCandPtr = dynamic_cast<const reco::PFCandidate*>(&cand);
     if (pfCandPtr) {
+      // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
+      if (std::abs(pfCandPtr->pdgId()) == 11 && pfCandPtr->gsfTrackRef().isNonnull())
+        return pfCandPtr->gsfTrackRef().get();
       if (pfCandPtr->trackRef().isNonnull())
         return pfCandPtr->trackRef().get();
       else if (pfCandPtr->gsfTrackRef().isNonnull())

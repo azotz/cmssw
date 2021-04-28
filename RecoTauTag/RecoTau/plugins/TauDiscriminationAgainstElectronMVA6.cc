@@ -281,6 +281,9 @@ TauDiscriminationAgainstElectronMVA6<TauType, TauDiscriminator, ElectronType>::g
         track = pfCandidate->muonRef()->outerTrack().get();
       else if (pfCandidate->gsfTrackRef().isNonnull())
         track = pfCandidate->gsfTrackRef().get();
+      // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
+      if (std::abs(pfCandidate->pdgId()) == 11 && pfCandidate->gsfTrackRef().isNonnull())
+        track = pfCandidate->gsfTrackRef().get();
     } else {
       bool success = false;
       reco::Candidate::Point posAtECal = positionAtECalEntrance_(candidate.get(), success);

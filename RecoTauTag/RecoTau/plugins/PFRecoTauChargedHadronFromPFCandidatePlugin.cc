@@ -197,6 +197,9 @@ namespace reco {
             chargedHadron->track_ = edm::refToPtr(pfCand->muonRef()->outerTrack());
           else if (pfCand->gsfTrackRef().isNonnull())
             chargedHadron->track_ = edm::refToPtr(pfCand->gsfTrackRef());
+          // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
+          if (std::abs(pfCand->pdgId()) == 11 && pfCand->gsfTrackRef().isNonnull())
+            chargedHadron->track_ = edm::refToPtr(pfCand->gsfTrackRef());
         }  // TauReco@MiniAOD: Tracks only available dynamically, so no possiblity to save ref here; checked by code downstream
 
         chargedHadron->positionAtECALEntrance_ = atECALEntrance(&**cand, bField_);

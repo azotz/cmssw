@@ -539,6 +539,9 @@ void PATTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) 
             track = ipfcand->muonRef()->outerTrack().get();
           else if (ipfcand->gsfTrackRef().isNonnull())
             track = ipfcand->gsfTrackRef().get();
+          // TauReco@MiniAOD downgrading tests: If PFCandidate is electron always take GSF track, if it exists.
+          if (std::abs(ipfcand->pdgId()) == 11 && ipfcand->gsfTrackRef().isNonnull())
+            track = ipfcand->gsfTrackRef().get();
           if (track) {
             if (track->pt() > leadChargedCandPt) {
               leadChargedCandEtaAtEcalEntrance = posAtECal_eta;
